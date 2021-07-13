@@ -5,60 +5,69 @@ import svgIconsTemplate from "./templates/svgIcons.html";
 import initialTemplate from "./templates/signIn.html";
 import taskFieldTemplate from "./templates/taskField.html";
 import noAccessTemplate from "./templates/noAccess.html";
+import adminPageTemplate from "./templates/adminPage.html"
 import { User } from "./models/User";
-import { generateTestUser,  getFromStorage, addTask} from "./utils";
+import { Task } from "./models/Task";
+import { generateUsers, generateTestTasks, getFromStorage, renderTasks, addTask, appendDropDownMenuItems, renderAdminMenuItems, removeAdminMenuItems, changeTaskStatus} from "./utils";
 import { State } from "./state";
 import { authUser, logout } from "./services/auth";
-import { tasks } from "./data/tasks";
-import { renderTasks } from "./utils";
+// import { tasks } from "./data/tasks";
 
 export const appState = new State();
 
 const loginForm = document.querySelector("#app-login-form");
-const loginButton = document.querySelector("#app-login-btn");
-const logoutButton = document.querySelector("#app-logout-btn");
+const logoutForm = document.querySelector("#app-logout-form");
+// const cardsContainer = document.querySelector(".cards-container");
+// const loginButton = document.querySelector("#app-login-btn");
+// const logoutButton = document.querySelector("#app-logout-btn");
 const fieldHTMLContent = document.querySelector("#content");
-let togglerState = false;
-
-console.log(loginForm);
-
+// let authState = false;
 document.querySelector('.svg-icons').innerHTML = svgIconsTemplate;
 fieldHTMLContent.innerHTML = initialTemplate;
+generateUsers();
+// addTask();
 
-generateTestUser(User);
-
-renderTasks('', tasks);
-
-addTask();
-
-loginForm.addEventListener("submit", function (e) {
+loginForm.addEventListener("submit", function(e) {
   e.preventDefault();
-  
   const formData = new FormData(loginForm);
   const login = formData.get("login");
   const password = formData.get("password");
   const isLogedIn = authUser(login, password);
 
-  togglerState = !togglerState;
-
-  if (togglerState && isLogedIn) {
+  if (isLogedIn) {
+    appState.currentUser.login === "test" ? generateTestTasks(appState.currentUser.id) : false;
+    const task = new Task();
+    appState.tasks = task.tasks;
+    // tasks.forEach(task => task.userId = appState.currentUser.id);
+    // cardsContainer.classList.remove("d-none");
+    console.log(appState);
     fieldHTMLContent.innerHTML = taskFieldTemplate;
-    loginButton.classList.add('d-none');
-    logoutButton.classList.remove('d-none');
-  }
-
-  if (!isLogedIn) {
-    fieldHTMLContent.innerHTML = noAccessTemplate;
-  }
-
-  if (!togglerState) {
-    if (isLogedIn) {
-      logout();
-      fieldHTMLContent.innerHTML = initialTemplate;
+    renderTasks(appState.currentUserTasks);
+    appendDropDownMenuItems(appState.currentUserTasks);
+    if (appState.currentUser.role === "admin") {
+      renderAdminMenuItems();
+      fieldHTMLContent.innerHTML += adminPageTemplate;
     }
-    loginButton.classList.remove('d-none');
-    logoutButton.classList.add('d-none')
-    return;
+    loginForm.classList.add('d-none');
+    logoutForm.classList.remove('d-none');
+    loginForm.childNodes[1].value = '';
+    loginForm.childNodes[3].value = '';
+  } else {
+    fieldHTMLContent.innerHTML = noAccessTemplate;
+    fieldHTMLContent.innerHTML += initialTemplate;
   }
+  addTask();
+  changeTaskStatus();
 });
+
+logoutForm.addEventListener("submit", function(e) {
+  e.preventDefault();
+  removeAdminMenuItems();
+  logout();
+  fieldHTMLContent.innerHTML = initialTemplate;
+  loginForm.classList.remove('d-none');
+  logoutForm.classList.add('d-none');
+  // cardsContainer.classList.add("d-none");
+});
+
 

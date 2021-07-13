@@ -10,61 +10,49 @@
 
 <body class="body bg-light">
     <div class="container container-xxl width-lg">
-        <nav class="navbar px-3 navbar-expand navbar-dark navbar-bg">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Kanban Board</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
-                    </ul>
-                    <form id="app-login-form" class="d-flex">
-                        <input class="form-control me-2" name="login" autocomplete="username" type="text"
-                            placeholder="Login" aria-label="Login">
-                        <input class="form-control me-2" name="password" autocomplete="current-password" type="password"
-                            placeholder="Password" aria-label="Password">
-                        <button id="app-login-btn" class="btn btn-outline-info" type="submit">Sign In</button>
-                        <button id="app-logout-btn" class="btn btn-outline-info d-none" type="submit">Sign Out</button>
-                    </form>
+        <header>
+            <nav class="navbar px-3 navbar-expand navbar-dark navbar-bg">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">Kanban Board</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            </li>
+                        </ul>
+                        <form id="app-login-form" class="d-flex">
+                            <input class="form-control me-2" name="login" autocomplete="username" type="text"
+                                placeholder="Login" aria-label="Login">
+                            <input class="form-control me-2" name="password" autocomplete="current-password" type="password"
+                                placeholder="Password" aria-label="Password">
+                            <button class="app-login-btn" id="app-login-btn" class="btn btn-outline-info" type="submit">Sign In</button>
+                        </form>
+                    <!--                        
+                        <div class="dropdown">
+                            <button class="btn add-task-btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                <svg class="bi flex-shrink-0 me-2" width="32" height="32" role="img" aria-label="Info:"><use xlink:href="#user-icon"/></svg>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            </ul>
+                        </div>
+                    -->
+                        <form id="app-logout-form" class="d-flex d-none">
+                            <button class="app-logout-btn" id="app-logout-btn" class="btn btn-outline-info" type="submit">Sign Out</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
+        </header>
     
-        <section class="main container-fluid">
+        <main class="main container-fluid">
             <div id="content"></div>
-            <div class="d-flex flex-wrap justify-content-between">
-                <div class="card align-self-start">
-                    <div class="card-title">Backlog</div>
-                        <div class="card-body">
-                        </div>
-                    <button class="btn add-task">&plus; Add card</button>
-                </div>
-                <div class="card">               
-                    <div class="card-title">Ready</div>
-                        <div class="card-body align-self-start">
-                        </div>
-                    <button class="btn add-task">&plus; Add card</button>
-                </div>
-                <div class="card align-self-start">
-                    <div class="card-title">In Progress</div>              
-                        <div class="card-body">
-                        </div>
-                    <button class="btn add-task">&plus; Add card</button>
-                </div>
-                <div class="card align-self-start">               
-                    <div class="card-title">Finished</div>
-                        <div class="card-body">
-                        </div>
-                    <button class="btn add-task">&plus; Add card</button>
-                </div>
-            </div>
-        </section>
+            <div class="svg-icons d-none"></div>
+        </main>
     
         <footer class="footer px-3 d-flex bd-highlight navbar navbar-dark navbar-bg">
             <div class="p-2 bd-highlight">Active tasks: n</div>
@@ -72,8 +60,6 @@
             <div class="ms-auto p-2 bd-highlight">Kanban board by NAME, YEAR</div>
         </footer>
     </div>
-       
-    <div class="svg-icons d-none"></div>
 </body>
 
 </html>

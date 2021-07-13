@@ -6,6 +6,7 @@
   font-weight: 400;
   font-size: 18px;
   line-height: 21px;
+  scroll-behavior: smooth;
 }
 
 .width-lg {
@@ -45,7 +46,7 @@
 }
 
 .card-body {
-  max-height: 65vh;
+  max-height: 28vh;
   overflow-y: auto;
 }
 
@@ -60,30 +61,32 @@
   box-shadow: 0 0 0 1pt rgb(124, 185, 241);
 }
 
-.text-box {
+.task-text-box {
   width: 100%;
   resize: none;
   border: none;
 }
 
-.text-box:focus {
+.task-text-box:focus {
   border: none;
   outline: none;
   box-shadow: 0 0 0 2pt rgb(124, 185, 241);
 }
 
-#app-login-btn,
-#app-logout-btn {
-  width: 200px;
-}
-
-.card > .btn {
-  color: #5E6C84;
-  text-align: left;
+.app-login-btn, .app-logout-btn {
+  min-width: 90px;
+  line-height: 32px;
+  border-radius: 5px;
 }
 
 .footer {
   color: #ffffff;
+}
+
+.add-task-btn {
+  color: #5E6C84;
+  width: 100%;
+  text-align: left;
 }
 
 @media screen and (min-width: 1400px){
