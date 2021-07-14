@@ -172,27 +172,8 @@ const appendDropDownMenuItems = function(tasks) {
   }
 }
 
-export const disableDropdownButton = function(tasks) {
-  console.log(tasks.length);
-  // let 
-  // const cardDropdowns = document.querySelectorAll(".card-dropdown");
-  // const dropDownMenus = document.querySelectorAll('.card-dropdown-menu');
-  // const dropdownButtons = document.querySelectorAll(".dropdown-btn");
-  // for (let i = 0; i < dropDownMenus.length; i++) {
-  //   console.log(dropDownMenus[i].innerHTML);
-  //   dropdownButtons[i].disabled = !dropDownMenus[i].innerHTML ? true : false;
-  // }
-  // cardDropdown.forEach(item => {
-  //   console.log(item.childNodes[3].firstChild);
-  //   if (!item.childNodes[3].childNodes.length) {
-  //     item.childNodes[1].disabled = true;
-  //   } else item.childNodes[1].disabled = false;
-  // });
-}
-
-export const tasksCountByStatus = function(tasks) {
+const tasksCountByStatus = function(tasks) {
   const activeTasks = document.querySelector("span.active-tasks");
-  console.log(activeTasks);
   const finishedTasks = document.querySelector("span.finished-tasks");
   const taskStatuses = {11: "backlog", 12: "ready", 13: "in_progress", 14: "finished"};
   let tasksQuantityByStatus = {backlog: 0, ready: 0, in_progress: 0, finished: 0};
@@ -202,7 +183,14 @@ export const tasksCountByStatus = function(tasks) {
     tasksQuantityByStatus[taskStatuses[task.statusId]]++;
     task.statusId !== 14 ? activeTasksQuantity++ : finishedTasksQuantity++;
   });
-  console.log(activeTasksQuantity);
-  activeTasks.innerText = activeTasksQuantity; //.toString() || "0";
-  finishedTasks.innerText = finishedTasksQuantity; //.toString() || "0";
+  activeTasks.innerText = activeTasksQuantity;
+  finishedTasks.innerText = finishedTasksQuantity;
+  disableDropdownButton(tasksQuantityByStatus);
+}
+
+const disableDropdownButton = function(tasksByStatusesObj) {
+  const dropdownButtons = document.querySelectorAll(".dropdown-btn");
+  dropdownButtons[0].disabled = tasksByStatusesObj.backlog === 0;
+  dropdownButtons[1].disabled = tasksByStatusesObj.ready === 0;
+  dropdownButtons[2].disabled = tasksByStatusesObj.in_progress === 0;
 }

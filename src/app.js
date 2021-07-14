@@ -10,8 +10,7 @@ import { User } from "./models/User";
 import { Task } from "./models/Task";
 import { 
   generateUsers, generateTestTasks, getFromStorage, renderTasks, addTask,
-  renderAdminMenuItems, removeAdminMenuItems, changeTaskStatus, disableDropdownButton,
-  tasksCountByStatus
+  renderAdminMenuItems, removeAdminMenuItems, changeTaskStatus
 } from "./utils";
 import { State } from "./state";
 import { authUser, logout } from "./services/auth";
@@ -39,7 +38,7 @@ loginForm.addEventListener("submit", function(e) {
     appState.tasks = getFromStorage("tasks");
     fieldHTMLContent.innerHTML = taskFieldTemplate;
     renderTasks(appState.currentUserTasks);
-    disableDropdownButton(appState.currentUserTasks);
+    // disableDropdownButton(appState.currentUserTasks);
     if (appState.currentUser.role === "admin") {
       renderAdminMenuItems();
     }
