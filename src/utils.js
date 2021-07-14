@@ -54,6 +54,7 @@ export const addTask = function() {
         appendTask(document.querySelector(".card-body"), task);
         appendDropDownMenuItems([task]);
         changeTaskStatus(appState.currentUserTasks);
+        tasksCountByStatus(appState.currentUserTasks);
       }
       addTaskBtn.classList.remove("d-none");
       submitBtn.classList.add("d-none");
