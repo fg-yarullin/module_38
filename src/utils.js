@@ -109,10 +109,10 @@ export const removeAdminMenuItems = function () {
 
 export const changeTaskStatus = function(tasks) {
   const cardDropdownMenu = document.querySelectorAll(".card-dropdown-menu");
-  const dropdownButton = document.querySelectorAll(".dropdown-btn");
+  const dropdownButtons = document.querySelectorAll(".dropdown-btn");
   const taskStatuses = {12: "ready", 13: "in_progress", 14: "finished"};
-  dropdownButton.forEach(item => {
-    item.addEventListener("click", function(e) {
+  dropdownButtons.forEach(button => {
+    button.addEventListener("click", function(e) {
       e.preventDefault();
       cardDropdownMenu.forEach(item => item.innerHTML = '');
       appendDropDownMenuItems(tasks);
@@ -149,6 +149,7 @@ export const renderTasks = function(tasks) {
       }
     }
   }
+  tasksCountByStatus(tasks);
 };
 
 const appendDropDownMenuItems = function(tasks) {
@@ -168,4 +169,39 @@ const appendDropDownMenuItems = function(tasks) {
       }
     });
   }
+}
+
+export const disableDropdownButton = function(tasks) {
+  console.log(tasks.length);
+  // let 
+  // const cardDropdowns = document.querySelectorAll(".card-dropdown");
+  // const dropDownMenus = document.querySelectorAll('.card-dropdown-menu');
+  // const dropdownButtons = document.querySelectorAll(".dropdown-btn");
+  // for (let i = 0; i < dropDownMenus.length; i++) {
+  //   console.log(dropDownMenus[i].innerHTML);
+  //   dropdownButtons[i].disabled = !dropDownMenus[i].innerHTML ? true : false;
+  // }
+  // cardDropdown.forEach(item => {
+  //   console.log(item.childNodes[3].firstChild);
+  //   if (!item.childNodes[3].childNodes.length) {
+  //     item.childNodes[1].disabled = true;
+  //   } else item.childNodes[1].disabled = false;
+  // });
+}
+
+export const tasksCountByStatus = function(tasks) {
+  const activeTasks = document.querySelector("span.active-tasks");
+  console.log(activeTasks);
+  const finishedTasks = document.querySelector("span.finished-tasks");
+  const taskStatuses = {11: "backlog", 12: "ready", 13: "in_progress", 14: "finished"};
+  let tasksQuantityByStatus = {backlog: 0, ready: 0, in_progress: 0, finished: 0};
+  let activeTasksQuantity = 0;
+  let finishedTasksQuantity = 0;
+  tasks.forEach(task => {
+    tasksQuantityByStatus[taskStatuses[task.statusId]]++;
+    task.statusId !== 14 ? activeTasksQuantity++ : finishedTasksQuantity++;
+  });
+  console.log(activeTasksQuantity);
+  activeTasks.innerText = activeTasksQuantity; //.toString() || "0";
+  finishedTasks.innerText = finishedTasksQuantity; //.toString() || "0";
 }
