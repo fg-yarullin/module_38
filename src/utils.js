@@ -13,14 +13,6 @@ export const addToStorage = function(obj, key) {
   localStorage.setItem(key, JSON.stringify(storageData));
 };
 
-// export const generateTestUser = function(User) {
-//   localStorage.clear();
-//   const testUser = {name: "test", password: "qwerty123", role: "user"};
-//   // const testUser = new User("test", "qwerty123", "user");
-//   // User.save(testUser);
-//   generarteUser(User, testUser);
-// };
-
 export const generateUsers = function() {
   localStorage.clear();
   const adminUser = {name: "admin", password: "qwerty123", role: "admin"};
@@ -41,21 +33,8 @@ export const generateTestTasks = function(userId) {
   });
 }
 
-export const renderTasks = function(tasks) {
-  const cards = document.querySelectorAll('.card-body');
-  if (tasks.length === 0) return;
-    for (let i = 0; i < cards.length; i++) {
-      for (let j = 0; j < tasks.length; j++) { {
-        if (tasks[j].statusId == i + 11) {
-          appendTask(cards[i], tasks[j])
-        }
-      }
-    }
-  }
-};
-
 export const addTask = function() {
-    const addTaskBtn = document.querySelector('.add-task-btn');
+    const addTaskBtn = document.querySelector('.add-to-backlog');
     const submitBtn = document.querySelector('.submit-btn');
     let listener;
     addTaskBtn.addEventListener('click', listener = () => {
@@ -68,12 +47,13 @@ export const addTask = function() {
     });
     submitBtn.addEventListener('click', listener = () => {
       const taskTextBox = document.querySelector('.task-text-box');
-      if (appState.currentUser) {
+      if (appState.currentUser && !!taskTextBox.value) {
         const task = new Task(appState.currentUser.id, taskTextBox.value);
         Task.save(task);
         appState.task = task;
         appendTask(document.querySelector(".card-body"), task);
         appendDropDownMenuItems([task]);
+        changeTaskStatus(appState.currentUserTasks);
       }
       addTaskBtn.classList.remove("d-none");
       submitBtn.classList.add("d-none");
@@ -103,25 +83,6 @@ function removeTextArea() {
   card.removeChild(taskTextBox);
 }
 
-export const appendDropDownMenuItems = function(tasks) {
-  const dropDownMenus = document.querySelectorAll('.card-dropdown-menu');
-  const taskStatuses = ["backlog", "ready", "in_progress"];
-  for (let i = 0; i < dropDownMenus.length; i++) {
-    tasks.forEach(task => {
-      if (task.status === taskStatuses[i]) {
-        const li = document.createElement('li');
-        const dropDownMenuItem = document.createElement('a');
-        li.id = "li" + task.id;
-        dropDownMenuItem.className = "dropdown-item";
-        dropDownMenuItem.href = "#";
-        dropDownMenuItem.innerText = task.text;
-        li.appendChild(dropDownMenuItem);
-        dropDownMenus[i].appendChild(li);
-      }
-    });
-  }
-}
-
 export const renderAdminMenuItems = function () {
   const navBarNav = document.querySelector(".navbar-nav");
   const adminMenu = ['Users', 'All Tasks'];
@@ -146,13 +107,65 @@ export const removeAdminMenuItems = function () {
   }
 }
 
-export const changeTaskStatus = function() {
-  const dropdownItems = document.querySelectorAll(".dropdown-item");
-  for (let i = 0; i < dropdownItems.length; i++) {
-    dropdownItems[i].addEventListener("click", function(e) {
+export const changeTaskStatus = function(tasks) {
+  const cardDropdownMenu = document.querySelectorAll(".card-dropdown-menu");
+  const dropdownButton = document.querySelectorAll(".dropdown-btn");
+  const taskStatuses = {12: "ready", 13: "in_progress", 14: "finished"};
+  dropdownButton.forEach(item => {
+    item.addEventListener("click", function(e) {
       e.preventDefault();
-      console.log(dropdownItems[i].parentNode.id);
-      console.log(dropdownItems[i].lastChild);
+      cardDropdownMenu.forEach(item => item.innerHTML = '');
+      appendDropDownMenuItems(tasks);
+      let dropdownItems = document.querySelectorAll(".card-dropdown-item");
+      for (let i = 0; i < dropdownItems.length; i++) {
+        dropdownItems[i].addEventListener("click", function(e1) {
+          e1.preventDefault();
+          let taskId = dropdownItems[i].parentNode.id.substr(2);
+          tasks.forEach(task => {
+            if (task.id === taskId) {
+              task.statusId++;
+              task.status = taskStatuses[task.statusId];
+              let allTasks = appState.tasks;
+              localStorage.removeItem("tasks");
+              localStorage.setItem("tasks", JSON.stringify(allTasks));
+              renderTasks(tasks);
+            }
+          });
+        });
+      }
+    });
+  });
+}
+
+export const renderTasks = function(tasks) {
+  const cards = document.querySelectorAll('.card-body');
+  if (tasks.length === 0) return;
+    for (let i = 0; i < cards.length; i++) {
+      cards[i].innerHTML = '';
+      for (let j = 0; j < tasks.length; j++) { {
+        if (tasks[j].statusId == i + 11) {
+          appendTask(cards[i], tasks[j])
+        }
+      }
+    }
+  }
+};
+
+const appendDropDownMenuItems = function(tasks) {
+  const dropDownMenus = document.querySelectorAll('.card-dropdown-menu');
+  const taskStatuses = ["backlog", "ready", "in_progress"];
+  for (let i = 0; i < dropDownMenus.length; i++) {
+    tasks.forEach(task => {
+      if (task.status === taskStatuses[i]) {
+        const li = document.createElement('li');
+        const dropDownMenuItem = document.createElement('a');
+        li.id = "li" + task.id;
+        dropDownMenuItem.classList.add("dropdown-item", "card-dropdown-item");
+        dropDownMenuItem.href = "#";
+        dropDownMenuItem.innerText = task.text;
+        li.appendChild(dropDownMenuItem);
+        dropDownMenus[i].appendChild(li);
+      }
     });
   }
 }

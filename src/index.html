@@ -30,19 +30,17 @@
                                 placeholder="Login" aria-label="Login">
                             <input class="form-control me-2" name="password" autocomplete="current-password" type="password"
                                 placeholder="Password" aria-label="Password">
-                            <button class="app-login-btn" id="app-login-btn" class="btn btn-outline-info" type="submit">Sign In</button>
-                        </form>
-                    <!--                        
-                        <div class="dropdown">
-                            <button class="btn add-task-btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                <svg class="bi flex-shrink-0 me-2" width="32" height="32" role="img" aria-label="Info:"><use xlink:href="#user-icon"/></svg>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            </ul>
-                        </div>
-                    -->
-                        <form id="app-logout-form" class="d-flex d-none">
-                            <button class="app-logout-btn" id="app-logout-btn" class="btn btn-outline-info" type="submit">Sign Out</button>
+                            <button class="btn app-login-btn" id="app-login-btn"  type="submit">Sign In</button>
+                        </form>                    
+                        <form id="app-logout-form" class="d-none">
+                            <div class="dropdown">
+                                <button class="btn dropdown-toggle user-menu" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <svg class="bi flex-shrink-0 me-2" width="32" height="32" role="img" aria-label="Info:"><use xlink:href="#user-icon"/></svg>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li><button class="dropdown-item app-logout-btn" id="app-logout-btn" type="submit">Sign Out</button></li>
+                                </ul>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -55,9 +53,9 @@
         </main>
     
         <footer class="footer px-3 d-flex bd-highlight navbar navbar-dark navbar-bg">
-            <div class="p-2 bd-highlight">Active tasks: n</div>
-            <div class="p-2 bd-highlight">Finished tasks: m</div>
-            <div class="ms-auto p-2 bd-highlight">Kanban board by NAME, YEAR</div>
+            <div class="p-2 bd-highlight">Active tasks: <span class="active-tasks">-</span></div>
+            <div class="p-2 bd-highlight">Finished tasks: <span class="finished-tasks">-</span></div>
+            <div class="ms-auto p-2 bd-highlight">Kanban board by FG, <span class="year">2021</span></div>
         </footer>
     </div>
 </body>

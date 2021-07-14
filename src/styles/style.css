@@ -25,6 +25,18 @@
   background-color: #0067A3;
 }
 
+.user-menu {
+  color: white;
+}
+
+.user-menu:hover {
+  color: rgb(197, 197, 197);
+}
+
+.dropdown-toggle[aria-expanded="true"]:after {
+  transform: rotate(180deg);  
+}
+
 .main {
   min-height: calc(100vh - 110px);
   background: #0079BF;
@@ -33,8 +45,8 @@
 }
 
 .card {
-  margin: 0 0 32px 0;
-  background-color: 0px 10px;
+  margin: 0 0 28px 0;
+  /* background-color: 0px 10px; */
   border: none;
   border-radius: 10px;
   width: 282px;
@@ -46,7 +58,10 @@
 }
 
 .card-body {
-  max-height: 28vh;
+  min-height: 100px;
+  max-height: 29vh;
+  /* height: 32vh; */
+  width: 100%;
   overflow-y: auto;
 }
 
@@ -73,10 +88,16 @@
   box-shadow: 0 0 0 2pt rgb(124, 185, 241);
 }
 
-.app-login-btn, .app-logout-btn {
-  min-width: 90px;
-  line-height: 32px;
+.app-login-btn {
+  min-width: 80px;
+  border: none;
   border-radius: 5px;
+  background-color: rgb(230, 230, 230);
+  font-weight: 500;
+}
+
+.app-login-btn:hover {
+  background-color: rgb(197, 197, 197);
 }
 
 .footer {
