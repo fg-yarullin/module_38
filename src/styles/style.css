@@ -87,7 +87,7 @@
   box-shadow: 0 0 0 2pt rgb(124, 185, 241);
 }
 
-.app-login-btn {
+.app-login-btn, #new-user-btn {
   min-width: 80px;
   border: none;
   border-radius: 5px;
@@ -107,4 +107,25 @@
   color: #5E6C84;
   width: 100%;
   text-align: left;
+}
+
+.new-user-form * {
+  margin: 15px 0;
+  max-width: 400px;
+}
+
+.users-list {
+  margin: 15px 0 0 0;
+  padding: 5px 5px 5px 5px;
+  background-color: #EBECF0;
+  border-radius: 5px;
+}
+
+.user-list-item {
+  max-height: 150px;
+  margin: 10px;
+  padding: 3px;
+  border-radius: 3px;
+  background-color: rgba(255, 255, 255, 0.7);
+  overflow-y: auto;
 }

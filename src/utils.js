@@ -25,11 +25,6 @@ export const generateUsers = function() {
   generarteUser(User, testUser);
 }
 
-export const generarteUser = function(User, userData) {
-  const user = new User(userData.name, userData.password, userData.role || "user");
-  User.save(user);
-}
-
 export const generateTestTasks = function(userId) {
   tasks.forEach(task => {
     const newTask = new Task(userId, task.text);
@@ -223,11 +218,8 @@ export const menuEventsHandler = function() {
     // for (let mutation of mutationList) {
     //   if (mutation.type == 'childList') {
     //     console.log(mutation);
-    //     removeMenuEventListener();
-    //     addMenuEventListener();    // 
     //   }
     // }
-    // console.log("DOM chaneged");
   }
   let observer = new MutationObserver(callback);
   observer.observe(headerNav, config);
@@ -251,17 +243,55 @@ export const menuEventsHandler = function() {
     });
     e.target.classList.add("active");
     fieldHTMLContent.innerHTML = templatesByMenuIds[e.target.id];
-    // for (let i = 0; i < menuIds.length; i++) {
-    
-    //   // if (e.target.id === menuIds[i]) {
-    //   //   // alert(e.target.id);
-    //   // }
-    // }
+    if (e.target.id = "users-page") {
+      showUserList();
+      addNewUser();
+    }
   }
 
   function removeMenuEventListener() {
     for (let i = 0; i < menuItems.length; i++) {
       menuItems[i].removeEventListener("click", menuEventListener, true);
     }
+  }
+}
+
+// const addUserHandler = function() {
+//   const button = document.querySelector('#new-user-btn');
+//   button.addEventListener("submit")
+// }
+
+const addNewUser = function() {
+  const addUserForm = document.querySelector('#new-user-form');
+  console.log(addUserForm.childNodes);
+  addUserForm.addEventListener("submit", listener);
+  function listener(e) {
+    e.preventDefault();
+    const formData = new FormData(addUserForm);
+    const userData = {name: formData.get("login"), password: formData.get("password"), role: formData.get("role")};
+    generarteUser(User, userData);
+    addUserForm.childNodes[1].value = '';
+    addUserForm.childNodes[3].value = '';
+    addUserForm.childNodes[5].options[0].selected = "selected";
+    showUserList();
+  }
+  // addUserForm.removeEventListener("submit", listener, false);
+}
+
+export const generarteUser = function(User, userData) {
+  const user = new User(userData.name, userData.password, userData.role || "user");
+  User.save(user);
+}
+
+const showUserList = function() {
+  const usersList = document.querySelector('.users-list');
+  const users = getFromStorage('users');
+  usersList.innerHTML = '';
+  let user;
+  for (let i =  0; i < users.length; i++) {
+    user = document.createElement('p');
+    user.className = 'user-list-item'
+    user.innerText = `${i + 1}. Login: ${users[i].login}, Password: ${users[i].password}, Role: ${users[i].role}`
+    usersList.appendChild(user);
   }
 }
