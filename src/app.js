@@ -38,7 +38,6 @@ loginForm.addEventListener("submit", function(e) {
     appState.tasks = getFromStorage("tasks");
     fieldHTMLContent.innerHTML = taskFieldTemplate;
     renderTasks(appState.currentUserTasks);
-    // disableDropdownButton(appState.currentUserTasks);
     if (appState.currentUser.role === "admin") {
       renderAdminMenuItems();
     }
@@ -61,6 +60,8 @@ logoutForm.addEventListener("submit", function(e) {
   fieldHTMLContent.innerHTML = initialTemplate;
   loginForm.classList.remove('d-none');
   logoutForm.classList.add('d-none');
+  document.querySelector("span.active-tasks").innerText = "-";
+  document.querySelector("span.finished-tasks").innerText = "-";
 });
 
 
