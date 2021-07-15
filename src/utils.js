@@ -2,6 +2,10 @@ import { User } from "./models/User";
 import { Task } from "./models/Task";
 import { appState } from "./app";
 import { tasks } from "./data/tasks";
+import adminPageUsersTemplate from "./templates/adminPageUsers.html";
+import adminPageUsersTasksTemplate from "./templates/adminPageUsersTasks.html"
+import taskFieldTemplate from "./templates/taskField.html";
+import { fieldHTMLContent } from "./app";
 
 export const getFromStorage = function(key) {
   return JSON.parse(localStorage.getItem(key) || "[]");
@@ -82,30 +86,6 @@ function removeTextArea() {
   const card = document.querySelector('.card-body');
   const taskTextBox = document.querySelector('.task-text-box');
   card.removeChild(taskTextBox);
-}
-
-export const renderAdminMenuItems = function () {
-  const navBarNav = document.querySelector(".navbar-nav");
-  const adminMenu = ['Users', 'All Tasks'];
-  adminMenu.forEach(element => {
-    const li = document.createElement("li");
-    const navLink = document.createElement("a");
-    li.className = "nav-item admin-menu-item";
-    navLink.className = "nav-link";
-    navLink.href = "#";
-    navLink.innerText = element;
-    navBarNav.appendChild(li).appendChild(navLink);
-  }) 
-}
-
-export const removeAdminMenuItems = function () {
-  if (appState.currentUser.role === "admin") {
-    const navBarNav = document.querySelector(".navbar-nav");
-    const adminMenuItems = document.querySelectorAll(".admin-menu-item");
-    if (adminMenuItems.length > 0) {
-      adminMenuItems.forEach(item => navBarNav.removeChild(item));
-    }
-  }
 }
 
 export const changeTaskStatus = function(tasks) {
@@ -193,4 +173,95 @@ const disableDropdownButton = function(tasksByStatusesObj) {
   dropdownButtons[0].disabled = tasksByStatusesObj.backlog === 0;
   dropdownButtons[1].disabled = tasksByStatusesObj.ready === 0;
   dropdownButtons[2].disabled = tasksByStatusesObj.in_progress === 0;
+}
+
+export const renderAdminMenuItems = function () {
+  const navBarNav = document.querySelector(".navbar-nav");
+  const adminMenu = ['Users', 'All Tasks'];
+  const menuIds = ['users-page', 'tasks-page'];
+  let i = 0;
+  adminMenu.forEach(element => {
+    const li = document.createElement("li");
+    const navLink = document.createElement("a");
+    li.className = "nav-item admin-menu-item";
+    navLink.className = "nav-link";
+    navLink.id = menuIds[i];
+    i++;
+    navLink.href = "#";
+    navLink.innerText = element;
+    navBarNav.appendChild(li).appendChild(navLink);
+  }) 
+}
+
+export const removeAdminMenuItems = function () {
+  if (appState.currentUser.role === "admin") {
+    const navBarNav = document.querySelector(".navbar-nav");
+    const adminMenuItems = document.querySelectorAll(".admin-menu-item");
+    if (adminMenuItems.length > 0) {
+      adminMenuItems.forEach(item => navBarNav.removeChild(item));
+    }
+  }
+}
+
+export const menuEventsHandler = function() {
+  const templatesByMenuIds = {
+    "navbar-brand": taskFieldTemplate,
+    home: taskFieldTemplate,
+    "users-page": adminPageUsersTemplate,
+    "tasks-page": adminPageUsersTasksTemplate
+  };
+  const headerNav = document.querySelector("nav ul");
+  let menuItems = document.querySelectorAll("nav a");
+  addMenuEventListener();
+  removeMenuEventListener();
+  let config = {childList: true};
+  const callback = function(mutationList) {
+    menuItems = document.querySelectorAll("nav a");
+    addMenuEventListener();
+    removeMenuEventListener();
+    // console.log("mutationList.lentgh", Object.keys(mutationList).length);
+    // for (let mutation of mutationList) {
+    //   if (mutation.type == 'childList') {
+    //     console.log(mutation);
+    //     removeMenuEventListener();
+    //     addMenuEventListener();    // 
+    //   }
+    // }
+    // console.log("DOM chaneged");
+  }
+  let observer = new MutationObserver(callback);
+  observer.observe(headerNav, config);
+  // observer.disconnect()
+  
+  function addMenuEventListener() {
+    for (let i = 0; i < menuItems.length; i++) {
+      menuItems[i].addEventListener("click", menuEventListener);
+    }
+  }
+
+  function menuEventListener(e) {
+    e.preventDefault();
+    menuItems.forEach(item => {
+      if (!e.target.classList.contains("navbar-brand")) {
+        item.classList.remove("active")
+      } else {
+        item.classList.remove("active");
+        item.id === "home" ? item.classList.add("active") : '';
+      }
+    });
+    e.target.classList.add("active");
+    fieldHTMLContent.innerHTML = templatesByMenuIds[e.target.id];
+    // for (let i = 0; i < menuIds.length; i++) {
+    
+    //   // if (e.target.id === menuIds[i]) {
+    //   //   // alert(e.target.id);
+    //   // }
+    // }
+  }
+
+  function removeMenuEventListener() {
+    for (let i = 0; i < menuItems.length; i++) {
+      menuItems[i].removeEventListener("click", menuEventListener, true);
+    }
+  }
 }

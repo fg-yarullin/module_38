@@ -46,7 +46,6 @@
 
 .card {
   margin: 0 0 28px 0;
-  /* background-color: 0px 10px; */
   border: none;
   border-radius: 10px;
   width: 282px;
@@ -108,12 +107,4 @@
   color: #5E6C84;
   width: 100%;
   text-align: left;
-}
-
-@media screen and (min-width: 1400px){
-  
-}
-
-@media screen and (min-width: 1200px){
-  
 }

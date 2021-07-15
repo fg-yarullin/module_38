@@ -5,12 +5,13 @@ import svgIconsTemplate from "./templates/svgIcons.html";
 import initialTemplate from "./templates/signIn.html";
 import taskFieldTemplate from "./templates/taskField.html";
 import noAccessTemplate from "./templates/noAccess.html";
-import adminPageTemplate from "./templates/adminPage.html"
+import adminPageUsersTemplate from "./templates/adminPageUsers.html"
+import adminPageUsersTasksTemplate from "./templates/adminPageUsersTasks.html"
 import { User } from "./models/User";
 import { Task } from "./models/Task";
 import { 
   generateUsers, generateTestTasks, getFromStorage, renderTasks, addTask,
-  renderAdminMenuItems, removeAdminMenuItems, changeTaskStatus
+  renderAdminMenuItems, removeAdminMenuItems, changeTaskStatus, menuEventsHandler
 } from "./utils";
 import { State } from "./state";
 import { authUser, logout } from "./services/auth";
@@ -19,11 +20,13 @@ export const appState = new State();
 
 const loginForm = document.querySelector("#app-login-form");
 const logoutForm = document.querySelector("#app-logout-form");
-const fieldHTMLContent = document.querySelector("#content");
+export const fieldHTMLContent = document.querySelector("#content");
 
 document.querySelector('.svg-icons').innerHTML = svgIconsTemplate;
 fieldHTMLContent.innerHTML = initialTemplate;
 generateUsers();
+
+menuEventsHandler();
 
 loginForm.addEventListener("submit", function(e) {
   e.preventDefault();
