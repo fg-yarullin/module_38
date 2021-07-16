@@ -243,7 +243,7 @@ export const menuEventsHandler = function() {
     });
     e.target.classList.add("active");
     fieldHTMLContent.innerHTML = templatesByMenuIds[e.target.id];
-    if (e.target.id = "users-page") {
+    if (e.target.id === "users-page") {
       showUserList();
       addNewUser();
     }
@@ -263,7 +263,6 @@ export const menuEventsHandler = function() {
 
 const addNewUser = function() {
   const addUserForm = document.querySelector('#new-user-form');
-  console.log(addUserForm.childNodes);
   addUserForm.addEventListener("submit", listener);
   function listener(e) {
     e.preventDefault();

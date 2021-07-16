@@ -95,7 +95,7 @@
   font-weight: 500;
 }
 
-.app-login-btn:hover {
+.app-login-btn:hover, #new-user-btn:hover {
   background-color: rgb(197, 197, 197);
 }
 
@@ -128,4 +128,8 @@
   border-radius: 3px;
   background-color: rgba(255, 255, 255, 0.7);
   overflow-y: auto;
+}
+
+.page-title {
+  color: #ffffff;
 }
